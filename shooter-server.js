@@ -287,7 +287,8 @@ setInterval(function () {
   var now = Date.now(), code, rm, id, R;
   for (code in rooms) {
     rm = rooms[code]; R = rm.R;
-    for (id in R.P) if (!R.P[id].bot && now - (rm.seen[id] || 0) > 25000) removePlayer(rm, id);
+    var lim = (R.phase === "lobby" || R.phase === "over") ? 300000 : 60000;
+    for (id in R.P) if (!R.P[id].bot && now - (rm.seen[id] || 0) > lim) removePlayer(rm, id);
     if (!rooms[code]) continue;
     if (R.phase !== "lobby" && R.phase !== "over") {
       tick(R, now);
